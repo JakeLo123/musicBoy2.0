@@ -10,8 +10,15 @@ body {
     background-color: pink;
 }
 
+h1 {
+    padding: 10px 15px;
+    background-color: rgb(247, 136, 154);
+    box-shadow: 5px 5px 5px salmon;
+}
+
 #grid {
     display: flex;
+    box-shadow: 5px 5px 5px salmon;
 
 }
 
@@ -19,8 +26,12 @@ body {
     height: 13px;
     width: 30px;
     background-color: lightgreen;
-    border: 1px solid salmon;
+    border: 0.5px solid rgb(30, 49, 28)
 
+}
+
+.cell.on {
+    background-color: seashell;
 }
 
 .cell:hover {
@@ -31,8 +42,10 @@ button {
     font-size: 17px;
     padding: 10px 15px;
     margin: 20px;
+    border: none;
     background-color: white;
     border-radius: 5px;
+    box-shadow: 5px 5px 5px salmon;
 }
 
 button:hover {

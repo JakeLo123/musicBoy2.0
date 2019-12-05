@@ -1,5 +1,10 @@
+// const synth = require('./sounds/synth.js');
+const Instrument = require('./instrument');
+
+const grid = document.getElementById('grid');
+const instrument = new Instrument(16);
+
 function createGrid(height, width) {
-  const grid = document.getElementById('grid');
   for (let i = 0; i < width; ++i) {
     let column = document.createElement('div');
     column.classList.add('column');
@@ -14,4 +19,10 @@ function createGrid(height, width) {
   }
 }
 
-createGrid(10, 10);
+createGrid(12, 16);
+
+grid.addEventListener('click', function(event) {
+  const cell = event.target;
+  instrument.playCell(cell.dataset.col, cell.dataset.row);
+  cell.classList.add('on');
+});
