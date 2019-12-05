@@ -1,4 +1,41 @@
 * {
-    text-align: center;
     font-family: 'Solway', serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: pink;
+}
+
+#grid {
+    display: flex;
+
+}
+
+.cell {
+    height: 13px;
+    width: 30px;
+    background-color: lightgreen;
+    border: 1px solid salmon;
+
+}
+
+.cell:hover {
+    background-color: salmon;
+}
+
+button {
+    font-size: 17px;
+    padding: 10px 15px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: gold;
+    transition: 0.4s
 }

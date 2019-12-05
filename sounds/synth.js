@@ -7,4 +7,4 @@ const synth = new Tone.PolySynth({
   voice: Tone.Synth,
 }).toMaster();
 
-module.exports = { synth };
+module.exports = synth;
