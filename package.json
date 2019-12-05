@@ -1,0 +1,14 @@
+{
+  "name": "musicboy2.0",
+  "version": "1.0.0",
+  "description": "make music with music boy",
+  "main": "grid.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jake Loew",
+  "license": "MIT",
+  "dependencies": {
+    "tone": "^13.8.25"
+  }
+}
