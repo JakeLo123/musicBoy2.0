@@ -1,4 +1,5 @@
 const synth = require('./sounds/synth.js');
+const Tone = require('tone');
 const AudioNode = require('./audioNode.js');
 
 const G_MAJOR = {
@@ -16,11 +17,23 @@ const G_MAJOR = {
   11: 'G3',
 };
 
+// function playChord(time, note) {
+//   synth.triggerAttackRelease(time, note);
+// }
+
 class Instrument {
   constructor(width) {
     this.height = 12;
     this.width = width;
+    this.events = [];
     this.grid = this.makeGrid();
+    this.sequence = new Tone.Sequence(
+      function(time, note) {
+        synth.triggerAttackRelease(time, note);
+      },
+      this.events,
+      '8n'
+    );
   }
 
   makeGrid() {
@@ -32,6 +45,7 @@ class Instrument {
         chord.push(node);
       }
       output.push(chord);
+      this.events.push([]);
     }
     return output;
   }
@@ -42,7 +56,30 @@ class Instrument {
 
   playCell(col, row) {
     const cell = this.getCell(col, row);
-    synth.triggerAttackRelease(cell.pitch, '8n');
+    synth.triggerAttackRelease(cell.pitch, '16n');
+  }
+
+  updateSequence(col, row) {
+    const pitch = this.getCell(col, row).pitch;
+    let event = this.sequence._events[col]._events;
+    console.log('event...', event);
+    if (event.includes(pitch)) {
+      console.log('this even includes pitch: ', pitch);
+      event = event.filter(note => note !== pitch);
+    } else {
+      event.push(pitch);
+    }
+  }
+
+  toggleCell(col, row) {
+    const cell = this.getCell(col, row);
+    if (cell.status) {
+      cell.status = false;
+    } else {
+      cell.status = true;
+      this.playCell(col, row);
+    }
+    this.updateSequence(col, row);
   }
 }
 

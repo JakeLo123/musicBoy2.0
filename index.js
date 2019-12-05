@@ -1,7 +1,8 @@
-// const synth = require('./sounds/synth.js');
 const Instrument = require('./instrument');
+const Tone = require('tone');
 
 const grid = document.getElementById('grid');
+const playPause = document.getElementById('play-pause');
 const instrument = new Instrument(16);
 
 function createGrid(height, width) {
@@ -21,8 +22,22 @@ function createGrid(height, width) {
 
 createGrid(12, 16);
 
-grid.addEventListener('click', function(event) {
-  const cell = event.target;
-  instrument.playCell(cell.dataset.col, cell.dataset.row);
-  cell.classList.add('on');
+grid.addEventListener('click', e => {
+  const cell = e.target;
+  instrument.toggleCell(cell.dataset.col, cell.dataset.row);
+  if (cell.classList.contains('on')) {
+    cell.classList.remove('on');
+  } else {
+    cell.classList.add('on');
+  }
+});
+
+playPause.addEventListener('click', e => {
+  if (e.target.innerText === 'start') {
+    e.target.innerText = 'stop';
+    Tone.Transport.start();
+  } else {
+    e.target.innerText = 'start';
+    Tone.Transport.stop();
+  }
 });

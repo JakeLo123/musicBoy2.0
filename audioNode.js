@@ -3,6 +3,7 @@ class AudioNode {
     this.row = row;
     this.col = col;
     this.pitch = pitch;
+    this.status = false;
   }
 }
 

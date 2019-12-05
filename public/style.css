@@ -14,6 +14,7 @@ h1 {
     padding: 10px 15px;
     background-color: rgb(247, 136, 154);
     box-shadow: 5px 5px 5px salmon;
+    border-radius: 5px;
 }
 
 #grid {
@@ -23,15 +24,15 @@ h1 {
 }
 
 .cell {
-    height: 13px;
-    width: 30px;
+    height: 16px;
+    width: 33px;
     background-color: lightgreen;
     border: 0.5px solid rgb(30, 49, 28)
 
 }
 
 .cell.on {
-    background-color: seashell;
+    background-color: salmon;
 }
 
 .cell:hover {
@@ -46,9 +47,24 @@ button {
     background-color: white;
     border-radius: 5px;
     box-shadow: 5px 5px 5px salmon;
+    outline: none;
 }
 
 button:hover {
-    background-color: gold;
-    transition: 0.4s
+    background-color: rgb(247, 136, 154);
+    transition: 0.2s;
+    outline: none;
+}
+
+button:active {
+    transform: translateY(3px);
+    transition: none;
+}
+
+#button-group {
+    margin: 20px;
+}
+
+input {
+    padding: 10px 15px
 }
