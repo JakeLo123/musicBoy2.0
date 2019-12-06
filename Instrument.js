@@ -42,16 +42,23 @@ class Instrument {
 
   makeSequence() {
     let chords = this.events.map(chord => new Tone.Event(null, chord));
-    let i = 0;
+    let sequenceLength = chords.length;
+    let playhead = 0;
     return new Tone.Sequence(
       function(time, event) {
-        Tone.Draw.schedule(function() {
-          const curNode = document.querySelector(`.column.index${i}`);
-          curNode.classList.add('animate');
-          ++i;
-          if (i === 8) i = 0;
-        });
         synth.triggerAttackRelease(event, '16n', time);
+        Tone.Draw.schedule(function() {
+          let timeoutValue = 8500 / Tone.Transport.bpm.value;
+          if (playhead === sequenceLength) {
+            playhead = 0;
+          }
+          let column = document.querySelector(`.column.index${playhead}`);
+          column.classList.add('animate');
+          setTimeout(() => {
+            column.classList.remove('animate');
+          }, timeoutValue);
+          ++playhead;
+        }, time);
       },
       chords,
       '8n'
@@ -91,11 +98,11 @@ class Instrument {
 
   startSequence() {
     Tone.Transport.start();
-    this.sequence.start(0);
+    this.sequence.start();
   }
 
   stopSequence() {
-    Tone.Transport.stop();
+    Tone.Transport.pause();
     this.sequence.stop();
   }
 
