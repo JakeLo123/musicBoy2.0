@@ -13,4 +13,6 @@ const synth = new Tone.PolySynth(12, Tone.Synth, {
   },
 }).toMaster();
 
-module.exports = synth;
+const kick = new Tone.MembraneSynth().toMaster();
+
+module.exports = { synth, kick };

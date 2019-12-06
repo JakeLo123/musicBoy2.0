@@ -1,4 +1,4 @@
-const synth = require('./sounds/synth.js');
+const { synth, kick } = require('./sounds/synth.js');
 const Tone = require('tone');
 const AudioNode = require('./audioNode.js');
 
@@ -48,11 +48,10 @@ class Instrument {
     let chords = this.events.map(chord => new Tone.Event(null, chord));
     return new Tone.Sequence(
       function(time, event) {
-        console.log(event);
         synth.triggerAttackRelease(event, '16n', time);
       },
       chords,
-      '4n'
+      '8n'
     );
   }
 
@@ -94,7 +93,15 @@ class Instrument {
 
   stopSequence() {
     Tone.Transport.stop();
-    this.sequence.stop(0);
+    this.sequence.stop();
+  }
+
+  clear() {
+    kick.triggerAttackRelease('A1', '8n');
+    this.events = [];
+    this.grid = this.makeGrid();
+    this.sequence.cancel();
+    this.sequence = this.makeSequence();
   }
 }
 
