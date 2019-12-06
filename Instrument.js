@@ -46,7 +46,10 @@ class Instrument {
     let playhead = 0;
     return new Tone.Sequence(
       function(time, event) {
-        synth.triggerAttackRelease(event, '16n', time);
+        synth.triggerAttackRelease(event, '4n', time);
+        Tone.Transport.on('pause', () => {
+          playhead = 0;
+        });
         Tone.Draw.schedule(function() {
           let timeoutValue = 8500 / Tone.Transport.bpm.value;
           if (playhead === sequenceLength) {
@@ -61,7 +64,7 @@ class Instrument {
         }, time);
       },
       chords,
-      '8n'
+      '4n'
     );
   }
 
