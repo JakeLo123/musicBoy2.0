@@ -69,3 +69,7 @@ input {
     padding: 10px 15px;
     outline: none;
 }
+
+.animate {
+    transform: scale(1.05, 1.05)
+}

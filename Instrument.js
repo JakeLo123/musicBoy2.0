@@ -42,8 +42,15 @@ class Instrument {
 
   makeSequence() {
     let chords = this.events.map(chord => new Tone.Event(null, chord));
+    let i = 0;
     return new Tone.Sequence(
       function(time, event) {
+        Tone.Draw.schedule(function() {
+          const curNode = document.querySelector(`.column.index${i}`);
+          curNode.classList.add('animate');
+          ++i;
+          if (i === 8) i = 0;
+        });
         synth.triggerAttackRelease(event, '16n', time);
       },
       chords,
