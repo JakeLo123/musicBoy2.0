@@ -27,13 +27,7 @@ class Instrument {
     this.width = width;
     this.events = [];
     this.grid = this.makeGrid();
-    this.sequence = new Tone.Sequence(
-      function(time, note) {
-        synth.triggerAttackRelease(time, note);
-      },
-      this.events,
-      '8n'
-    );
+    this.sequence = this.makeSequence();
   }
 
   makeGrid() {
@@ -50,6 +44,18 @@ class Instrument {
     return output;
   }
 
+  makeSequence() {
+    let chords = this.events.map(chord => new Tone.Event(null, chord));
+    return new Tone.Sequence(
+      function(time, event) {
+        console.log(event);
+        synth.triggerAttackRelease(event, '16n', time);
+      },
+      chords,
+      '4n'
+    );
+  }
+
   getCell(col, row) {
     return this.grid[col][row];
   }
@@ -61,13 +67,12 @@ class Instrument {
 
   updateSequence(col, row) {
     const pitch = this.getCell(col, row).pitch;
-    let event = this.sequence._events[col]._events;
-    console.log('event...', event);
-    if (event.includes(pitch)) {
-      console.log('this even includes pitch: ', pitch);
-      event = event.filter(note => note !== pitch);
+    if (this.sequence._events[col].value.includes(pitch)) {
+      this.sequence._events[col].value = this.sequence._events[
+        col
+      ].value.filter(note => note !== pitch);
     } else {
-      event.push(pitch);
+      this.sequence._events[col].value.push(pitch);
     }
   }
 
@@ -80,6 +85,16 @@ class Instrument {
       this.playCell(col, row);
     }
     this.updateSequence(col, row);
+  }
+
+  startSequence() {
+    Tone.Transport.start();
+    this.sequence.start(0);
+  }
+
+  stopSequence() {
+    Tone.Transport.stop();
+    this.sequence.stop(0);
   }
 }
 

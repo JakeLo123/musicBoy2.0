@@ -2,7 +2,7 @@ const Instrument = require('./instrument');
 const Tone = require('tone');
 
 const grid = document.getElementById('grid');
-const playPause = document.getElementById('play-pause');
+const playPauseButton = document.getElementById('play-pause');
 const instrument = new Instrument(16);
 
 function createGrid(height, width) {
@@ -19,7 +19,6 @@ function createGrid(height, width) {
     grid.append(column);
   }
 }
-
 createGrid(12, 16);
 
 grid.addEventListener('click', e => {
@@ -32,12 +31,12 @@ grid.addEventListener('click', e => {
   }
 });
 
-playPause.addEventListener('click', e => {
+playPauseButton.addEventListener('click', e => {
   if (e.target.innerText === 'start') {
     e.target.innerText = 'stop';
-    Tone.Transport.start();
+    instrument.startSequence();
   } else {
     e.target.innerText = 'start';
-    Tone.Transport.stop();
+    instrument.stopSequence();
   }
 });
