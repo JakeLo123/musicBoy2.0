@@ -17,10 +17,6 @@ const G_MAJOR = {
   11: 'G3',
 };
 
-// function playChord(time, note) {
-//   synth.triggerAttackRelease(time, note);
-// }
-
 class Instrument {
   constructor(width) {
     this.height = 12;
@@ -100,7 +96,7 @@ class Instrument {
     kick.triggerAttackRelease('A1', '8n');
     this.events = [];
     this.grid = this.makeGrid();
-    this.sequence.cancel();
+    this.sequence.dispose();
     this.sequence = this.makeSequence();
   }
 }

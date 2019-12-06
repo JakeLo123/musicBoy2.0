@@ -1,9 +1,10 @@
 const Instrument = require('./instrument');
+const { clearAllCellsFromGrid } = require('./utils');
 
 const grid = document.getElementById('grid');
 const playPauseButton = document.getElementById('play-pause');
 const clearButton = document.getElementById('clear');
-const instrument = new Instrument(16);
+const instrument = new Instrument(8);
 
 function createGrid(height, width) {
   for (let i = 0; i < width; ++i) {
@@ -20,7 +21,7 @@ function createGrid(height, width) {
     grid.append(column);
   }
 }
-createGrid(12, 16);
+createGrid(12, 8);
 
 grid.addEventListener('click', e => {
   const cell = e.target;
@@ -43,6 +44,7 @@ playPauseButton.addEventListener('click', e => {
 });
 
 clearButton.addEventListener('click', () => {
-  console.log('grid', grid);
+  clearAllCellsFromGrid(grid);
   instrument.clear();
+  playPauseButton.innerText = 'start';
 });
