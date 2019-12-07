@@ -16,6 +16,20 @@ body {
     box-shadow: 10px 3px 10px #A14A76;
 }
 
+.column.light {
+    margin-left: 2px;
+    background-color: #FBC2B5
+}
+
+.column.dark {
+    margin-left: 2px;
+    background-color: #FFA8A9
+}
+
+.column.animate {
+    background-color: rgba(205, 178, 171, 0.466);
+}
+
 .cell {
     height: 16px;
     width: 33px;
@@ -55,28 +69,41 @@ button:active {
 
 #button-group {
     margin: 20px;
+    display: flex;
+    align-items: center;
+}
+
+#plus-minus-group {
+
+    border: 1px solid black;
+    display: flex;
+    padding: 0;
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px #A14A76;
+}
+
+.plus {
+    border-radius: 5px 0 0 5px
+}
+
+.minus {
+    border-radius: 0 5px 5px 0
+}
+
+.plus, .minus {
+    box-shadow: none;
+    border: none;
+    margin: 0;
 }
 
 input {
     padding: 10px 15px;
+    height: 50%;
     outline: none;
 }
 
-.column.light {
-    margin-left: 2px;
-    background-color: #FBC2B5
-}
-
-.column.dark {
-    margin-left: 2px;
-    background-color: #FFA8A9
-}
-
-.column.animate {
-    background-color: rgba(205, 178, 171, 0.466);
-}
-
-/* 
+/* scheme...
 #FBC2B5
 #FFA8A9
 #F786AA

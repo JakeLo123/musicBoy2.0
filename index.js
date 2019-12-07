@@ -60,5 +60,4 @@ clearButton.addEventListener('click', () => {
 
 setTempo.addEventListener('change', e => {
   instrument.setTempo(e.target.value);
-  console.log('tempo set to: ', e.target.value);
 });

@@ -24,6 +24,7 @@ class Instrument {
     this.events = [];
     this.grid = this.makeGrid();
     this.sequence = this.makeSequence();
+    this.setTempo(120);
   }
 
   setTempo(value) {
@@ -50,6 +51,10 @@ class Instrument {
     let playhead = 0;
     return new Tone.Sequence(
       function(time, event) {
+        // reset playhead to 0 on pause...
+        Tone.Transport.on('pause', () => {
+          playhead = 0;
+        });
         // trigger event...
         synth.triggerAttackRelease(event, '16n', time);
         // schedule dom manipulation...
@@ -65,10 +70,6 @@ class Instrument {
           }, timeoutValue);
           ++playhead;
         }, time);
-        // reset playhead to 0 on pause...
-        Tone.Transport.on('pause', () => {
-          playhead = 0;
-        });
       },
       chords,
       '8n'
