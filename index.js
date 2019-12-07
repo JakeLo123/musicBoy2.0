@@ -5,6 +5,8 @@ const grid = document.getElementById('grid');
 const playPauseButton = document.getElementById('play-pause');
 const clearButton = document.getElementById('clear');
 const setTempo = document.getElementById('tempo');
+const addMeasure = document.querySelector('.plus');
+const removeMeasure = document.querySelector('.minus');
 const instrument = new Instrument(16);
 
 function createGrid(height, width) {
@@ -60,4 +62,12 @@ clearButton.addEventListener('click', () => {
 
 setTempo.addEventListener('change', e => {
   instrument.setTempo(e.target.value);
+});
+
+addMeasure.addEventListener('click', () => {
+  console.log('add button was clicked!');
+});
+
+removeMeasure.addEventListener('click', () => {
+  console.log('remove button was clicked');
 });
