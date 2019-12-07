@@ -96,6 +96,13 @@ class Instrument {
     }
   }
 
+  addMeasure() {
+    // this.sequence._events.push([]);
+    // this.sequence._events.push([]);
+    // this.sequence._events.push([]);
+    console.log(this.sequence);
+  }
+
   toggleCell(col, row) {
     const cell = this.getCell(col, row);
     if (cell.status) {

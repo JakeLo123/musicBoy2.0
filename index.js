@@ -7,7 +7,7 @@ const clearButton = document.getElementById('clear');
 const setTempo = document.getElementById('tempo');
 const addMeasure = document.querySelector('.plus');
 const removeMeasure = document.querySelector('.minus');
-const instrument = new Instrument(16);
+const instrument = new Instrument(4);
 
 function createGrid(height, width) {
   let lightOrDark = true;
@@ -32,7 +32,8 @@ function createGrid(height, width) {
     grid.append(column);
   }
 }
-createGrid(12, 16);
+
+createGrid(12, 4);
 
 grid.addEventListener('click', e => {
   const cell = e.target;
@@ -55,8 +56,8 @@ playPauseButton.addEventListener('click', e => {
 });
 
 clearButton.addEventListener('click', () => {
-  clearAllCellsFromGrid(grid);
   instrument.clear();
+  clearAllCellsFromGrid(grid);
   playPauseButton.innerText = 'start';
 });
 
@@ -65,6 +66,29 @@ setTempo.addEventListener('change', e => {
 });
 
 addMeasure.addEventListener('click', () => {
+  let columnIndex = grid.children.length - 1;
+  let lightOrDark = true;
+  let n = 0;
+  for (let i = 0; i < 4; ++i) {
+    let column = document.createElement('div');
+    if (n % 4 === 0) {
+      lightOrDark = !lightOrDark;
+      n = 0;
+    }
+    column.classList.add('column');
+    column.classList.add(lightOrDark ? 'light' : 'dark');
+    column.classList.add(`index${columnIndex + 1}`);
+    ++n;
+    for (let j = 0; j < 12; ++j) {
+      let cell = document.createElement('div');
+      cell.dataset.row = j;
+      cell.dataset.col = i;
+      cell.classList.add('cell');
+      column.append(cell);
+    }
+    grid.append(column);
+  }
+  instrument.addMeasure();
   console.log('add button was clicked!');
 });
 
