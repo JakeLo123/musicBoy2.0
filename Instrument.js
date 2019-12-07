@@ -26,6 +26,10 @@ class Instrument {
     this.sequence = this.makeSequence();
   }
 
+  setTempo(value) {
+    Tone.Transport.bpm.value = value;
+  }
+
   makeGrid() {
     let output = [];
     for (let i = 0; i < this.width; ++i) {
@@ -46,12 +50,11 @@ class Instrument {
     let playhead = 0;
     return new Tone.Sequence(
       function(time, event) {
-        synth.triggerAttackRelease(event, '4n', time);
-        Tone.Transport.on('pause', () => {
-          playhead = 0;
-        });
+        // trigger event...
+        synth.triggerAttackRelease(event, '16n', time);
+        // schedule dom manipulation...
         Tone.Draw.schedule(function() {
-          let timeoutValue = 8500 / Tone.Transport.bpm.value;
+          let timeoutValue = 30000 / Tone.Transport.bpm.value;
           if (playhead === sequenceLength) {
             playhead = 0;
           }
@@ -62,9 +65,13 @@ class Instrument {
           }, timeoutValue);
           ++playhead;
         }, time);
+        // reset playhead to 0 on pause...
+        Tone.Transport.on('pause', () => {
+          playhead = 0;
+        });
       },
       chords,
-      '4n'
+      '8n'
     );
   }
 

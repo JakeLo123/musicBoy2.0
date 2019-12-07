@@ -4,13 +4,22 @@ const { clearAllCellsFromGrid } = require('./utils');
 const grid = document.getElementById('grid');
 const playPauseButton = document.getElementById('play-pause');
 const clearButton = document.getElementById('clear');
-const instrument = new Instrument(8);
+const setTempo = document.getElementById('tempo');
+const instrument = new Instrument(16);
 
 function createGrid(height, width) {
+  let lightOrDark = true;
+  let n = 0;
   for (let i = 0; i < width; ++i) {
     let column = document.createElement('div');
+    if (n % 4 === 0) {
+      lightOrDark = !lightOrDark;
+      n = 0;
+    }
     column.classList.add('column');
+    column.classList.add(lightOrDark ? 'light' : 'dark');
     column.classList.add(`index${i}`);
+    ++n;
     for (let j = 0; j < height; ++j) {
       let cell = document.createElement('div');
       cell.dataset.row = j;
@@ -21,7 +30,7 @@ function createGrid(height, width) {
     grid.append(column);
   }
 }
-createGrid(12, 8);
+createGrid(12, 16);
 
 grid.addEventListener('click', e => {
   const cell = e.target;
@@ -47,4 +56,9 @@ clearButton.addEventListener('click', () => {
   clearAllCellsFromGrid(grid);
   instrument.clear();
   playPauseButton.innerText = 'start';
+});
+
+setTempo.addEventListener('change', e => {
+  instrument.setTempo(e.target.value);
+  console.log('tempo set to: ', e.target.value);
 });
