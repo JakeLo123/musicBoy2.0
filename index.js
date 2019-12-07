@@ -1,5 +1,5 @@
 const Instrument = require('./instrument');
-const { appendMeasures, clearAllCellsFromGrid } = require('./utils');
+const { clearAllCellsFromGrid } = require('./utils');
 
 const initialGridWidth = 4;
 
@@ -12,7 +12,7 @@ const removeMeasureButton = document.querySelector('.minus');
 const instrument = new Instrument(initialGridWidth);
 
 function initializeGrid(width) {
-  let lightOrDark = true;
+  let lightOrDark = false;
   let n = 0;
   for (let i = 0; i < width; ++i) {
     let column = document.createElement('div');
@@ -58,6 +58,7 @@ playPauseButton.addEventListener('click', e => {
 });
 
 clearButton.addEventListener('click', () => {
+  instrument.width = grid.children.length;
   instrument.clear();
   clearAllCellsFromGrid(grid);
   playPauseButton.innerText = 'start';
@@ -69,7 +70,7 @@ setTempo.addEventListener('change', e => {
 
 addMeasureButton.addEventListener('click', () => {
   let columnIndex = grid.children.length - 1;
-  let lightOrDark = true;
+  let lightOrDark = grid.children.length % 8 === 0;
   for (let i = 0; i < 4; ++i) {
     let column = document.createElement('div');
     column.classList.add('column');
