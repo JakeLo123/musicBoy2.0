@@ -16,6 +16,7 @@ body {
 
 #grid {
     display: flex;
+    flex-wrap: nowrap;
     background: linear-gradient(to right, rgb(226, 160, 215),#A14A76);
     box-shadow: 10px 3px 10px #A14A76;
 }
@@ -31,7 +32,7 @@ body {
 }
 
 .column.animate {
-    background-color: rgba(255, 255, 255, 0.466);
+    background-color: rgba(255, 255, 255, 0.623);
 }
 
 .cell {

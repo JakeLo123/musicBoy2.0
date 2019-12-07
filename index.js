@@ -1,15 +1,17 @@
 const Instrument = require('./instrument');
-const { clearAllCellsFromGrid } = require('./utils');
+const { appendMeasures, clearAllCellsFromGrid } = require('./utils');
+
+const initialGridWidth = 4;
 
 const grid = document.getElementById('grid');
 const playPauseButton = document.getElementById('play-pause');
 const clearButton = document.getElementById('clear');
 const setTempo = document.getElementById('tempo');
-const addMeasure = document.querySelector('.plus');
-const removeMeasure = document.querySelector('.minus');
-const instrument = new Instrument(4);
+const addMeasureButton = document.querySelector('.plus');
+const removeMeasureButton = document.querySelector('.minus');
+const instrument = new Instrument(initialGridWidth);
 
-function createGrid(height, width) {
+function initializeGrid(width) {
   let lightOrDark = true;
   let n = 0;
   for (let i = 0; i < width; ++i) {
@@ -22,7 +24,7 @@ function createGrid(height, width) {
     column.classList.add(lightOrDark ? 'light' : 'dark');
     column.classList.add(`index${i}`);
     ++n;
-    for (let j = 0; j < height; ++j) {
+    for (let j = 0; j < 12; ++j) {
       let cell = document.createElement('div');
       cell.dataset.row = j;
       cell.dataset.col = i;
@@ -33,7 +35,7 @@ function createGrid(height, width) {
   }
 }
 
-createGrid(12, 4);
+initializeGrid(initialGridWidth);
 
 grid.addEventListener('click', e => {
   const cell = e.target;
@@ -65,33 +67,27 @@ setTempo.addEventListener('change', e => {
   instrument.setTempo(e.target.value);
 });
 
-addMeasure.addEventListener('click', () => {
+addMeasureButton.addEventListener('click', () => {
   let columnIndex = grid.children.length - 1;
   let lightOrDark = true;
-  let n = 0;
   for (let i = 0; i < 4; ++i) {
     let column = document.createElement('div');
-    if (n % 4 === 0) {
-      lightOrDark = !lightOrDark;
-      n = 0;
-    }
     column.classList.add('column');
     column.classList.add(lightOrDark ? 'light' : 'dark');
     column.classList.add(`index${columnIndex + 1}`);
-    ++n;
+    ++columnIndex;
     for (let j = 0; j < 12; ++j) {
       let cell = document.createElement('div');
       cell.dataset.row = j;
-      cell.dataset.col = i;
+      cell.dataset.col = columnIndex;
       cell.classList.add('cell');
       column.append(cell);
     }
     grid.append(column);
   }
   instrument.addMeasure();
-  console.log('add button was clicked!');
 });
 
-removeMeasure.addEventListener('click', () => {
+removeMeasureButton.addEventListener('click', () => {
   console.log('remove button was clicked');
 });

@@ -32,17 +32,28 @@ class Instrument {
   }
 
   makeGrid() {
-    let output = [];
+    let grid = [];
     for (let i = 0; i < this.width; ++i) {
       let chord = [];
       for (let j = 0; j < this.height; ++j) {
         let node = new AudioNode(j, i, G_MAJOR[j]);
         chord.push(node);
       }
-      output.push(chord);
+      grid.push(chord);
       this.events.push([]);
     }
-    return output;
+    return grid;
+  }
+
+  addMeasureToGrid() {
+    for (let i = 0; i < 4; ++i) {
+      let chord = [];
+      for (let j = 0; j < 12; ++j) {
+        let node = new AudioNode(j, i, G_MAJOR[j]);
+        chord.push(node);
+      }
+      this.grid.push(chord);
+    }
   }
 
   makeSequence() {
@@ -55,7 +66,7 @@ class Instrument {
         Tone.Transport.on('pause', () => {
           playhead = 0;
         });
-        // trigger event...
+        // trigger event/chord...
         synth.triggerAttackRelease(event, '16n', time);
         // schedule dom manipulation...
         Tone.Draw.schedule(function() {
@@ -85,7 +96,7 @@ class Instrument {
     synth.triggerAttackRelease(cell.pitch, '16n');
   }
 
-  updateSequence(col, row) {
+  updateSequenceWithCell(col, row) {
     const pitch = this.getCell(col, row).pitch;
     if (this.sequence._events[col].value.includes(pitch)) {
       this.sequence._events[col].value = this.sequence._events[
@@ -97,10 +108,12 @@ class Instrument {
   }
 
   addMeasure() {
-    // this.sequence._events.push([]);
-    // this.sequence._events.push([]);
-    // this.sequence._events.push([]);
-    console.log(this.sequence);
+    for (let i = 0; i < 4; ++i) {
+      this.events.push([]);
+    }
+    this.addMeasureToGrid();
+    this.sequence.dispose();
+    this.sequence = this.makeSequence().start();
   }
 
   toggleCell(col, row) {
@@ -111,7 +124,7 @@ class Instrument {
       cell.status = true;
       this.playCell(col, row);
     }
-    this.updateSequence(col, row);
+    this.updateSequenceWithCell(col, row);
   }
 
   startSequence() {
