@@ -10,6 +10,21 @@ body {
     background-color:rgb(226, 160, 215)
 }
 
+* {
+    animation: transform 0.4s;
+    animation-iteration-count: 1;
+    animation-play-state: running;
+}
+
+@keyframes transform {
+    from {
+            transform: translateX(700px)
+    }
+    to {
+            transform: translateX(0px)
+    }
+}
+
 #play-pause {
     width: 100px
 }
@@ -70,7 +85,6 @@ button:hover {
 button:active {
     transform: scale(0.95, 0.95) translateY(2px);
     transition: 0s;
-    /* background-color: rgba(253, 158, 188, 0.932); */
 }
 
 #playback-controls {

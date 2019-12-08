@@ -1,7 +1,7 @@
 const Instrument = require('./instrument');
 const { clearAllCellsFromGrid } = require('./utils');
 
-const initialGridWidth = 4;
+const initialGridWidth = 8;
 
 const grid = document.getElementById('grid');
 const playPauseButton = document.getElementById('play-pause');
@@ -65,7 +65,7 @@ clearButton.addEventListener('click', () => {
 });
 
 setTempo.addEventListener('change', e => {
-  instrument.setTempo(e.target.value);
+  instrument.setTempo(e.target.value * 2);
 });
 
 addMeasureButton.addEventListener('click', () => {
