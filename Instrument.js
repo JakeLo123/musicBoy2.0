@@ -53,7 +53,9 @@ class Instrument {
       this.grid.push(column);
     }
     this.disposeSequenceAndMakeNewSequence();
-    this.sequence.start();
+    if (Tone.Transport.state === 'started') {
+      this.sequence.start();
+    }
   }
 
   removeColumnsFromGrid(n) {
@@ -61,7 +63,9 @@ class Instrument {
       this.grid.pop();
     }
     this.disposeSequenceAndMakeNewSequence();
-    this.sequence.start();
+    if (Tone.Transport.state === 'started') {
+      this.sequence.start();
+    }
   }
 
   makeSequence() {
@@ -155,6 +159,7 @@ class Instrument {
     kick.triggerAttackRelease('A1', '8n');
     this.grid = this.makeGrid();
     this.disposeSequenceAndMakeNewSequence();
+    this.stopSequence();
   }
 }
 

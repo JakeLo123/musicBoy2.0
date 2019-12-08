@@ -1,7 +1,7 @@
 const Instrument = require('./instrument');
 const { clearAllCellsFromGrid } = require('./utils');
 
-const initialGridWidth = 8;
+const initialGridWidth = 16;
 
 const grid = document.getElementById('grid');
 const playPauseButton = document.getElementById('play-pause');
@@ -68,6 +68,9 @@ setTempo.addEventListener('change', e => {
 });
 
 addMeasureButton.addEventListener('click', () => {
+  if (grid.children.length >= 4) {
+    removeMeasureButton.disabled = false;
+  }
   let columnIndex = grid.children.length - 1;
   let lightOrDark = grid.children.length % 8 === 0;
   for (let i = 0; i < 4; ++i) {
@@ -88,12 +91,16 @@ addMeasureButton.addEventListener('click', () => {
   instrument.addColumnsToGrid(4);
 });
 
-removeMeasureButton.addEventListener('click', () => {
-  let columnIndex = grid.children.length - 1;
-  for (let i = 0; i < 4; ++i) {
-    let nodeToBeRemoved = grid.children[columnIndex];
-    grid.removeChild(nodeToBeRemoved);
-    --columnIndex;
+removeMeasureButton.addEventListener('click', e => {
+  if (grid.children.length <= 4) {
+    e.target.disabled = true;
+  } else {
+    let columnIndex = grid.children.length - 1;
+    for (let i = 0; i < 4; ++i) {
+      let nodeToBeRemoved = grid.children[columnIndex];
+      grid.removeChild(nodeToBeRemoved);
+      --columnIndex;
+    }
+    instrument.removeColumnsFromGrid(4);
   }
-  instrument.removeColumnsFromGrid(4);
 });

@@ -43,6 +43,8 @@ body {
 }
 
 #grid {
+    max-width: 95%;
+    overflow-x: scroll;
     display: flex;
     flex-wrap: nowrap;
     background: linear-gradient(to right, rgb(226, 160, 215),#A14A76);
