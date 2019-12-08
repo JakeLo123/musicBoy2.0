@@ -21,7 +21,6 @@ class Instrument {
   constructor(width) {
     this.height = 12;
     this.width = width;
-    this.events = [];
     this.grid = this.makeGrid();
     this.sequence = this.makeSequence();
     this.setTempo(120);
@@ -34,30 +33,47 @@ class Instrument {
   makeGrid() {
     let grid = [];
     for (let i = 0; i < this.width; ++i) {
-      let chord = [];
+      let column = [];
       for (let j = 0; j < this.height; ++j) {
         let node = new AudioNode(j, i, G_MAJOR[j]);
-        chord.push(node);
+        column.push(node);
       }
-      grid.push(chord);
-      this.events.push([]);
+      grid.push(column);
     }
     return grid;
   }
 
-  addMeasureToGrid() {
-    for (let i = 0; i < 4; ++i) {
-      let chord = [];
+  addColumnsToGrid(n) {
+    for (let i = 0; i < n; ++i) {
+      let column = [];
       for (let j = 0; j < 12; ++j) {
         let node = new AudioNode(j, i, G_MAJOR[j]);
-        chord.push(node);
+        column.push(node);
       }
-      this.grid.push(chord);
+      this.grid.push(column);
     }
+    this.disposeSequenceAndMakeNewSequence();
+    this.sequence.start();
+  }
+
+  removeColumnsFromGrid(n) {
+    for (let i = 0; i < n; ++i) {
+      this.grid.pop();
+    }
+    this.disposeSequenceAndMakeNewSequence();
+    this.sequence.start();
   }
 
   makeSequence() {
-    let chords = this.events.map(chord => new Tone.Event(null, chord));
+    let chords = this.grid.map(column => {
+      let chord = column.reduce((accum, node) => {
+        if (node.status) {
+          accum.push(node.pitch);
+        }
+        return accum;
+      }, []);
+      return new Tone.Event(null, chord);
+    });
     let sequenceLength = chords.length;
     let playhead = 0;
     return new Tone.Sequence(
@@ -66,8 +82,10 @@ class Instrument {
         Tone.Transport.on('pause', () => {
           playhead = 0;
         });
+
         // trigger event/chord...
         synth.triggerAttackRelease(event, '16n', time);
+
         // schedule dom manipulation...
         Tone.Draw.schedule(function() {
           let timeoutValue = 30000 / Tone.Transport.bpm.value;
@@ -96,7 +114,7 @@ class Instrument {
     synth.triggerAttackRelease(cell.pitch, '16n');
   }
 
-  updateSequenceWithCell(col, row) {
+  toggleCellWithinSequence(col, row) {
     const pitch = this.getCell(col, row).pitch;
     if (this.sequence._events[col].value.includes(pitch)) {
       this.sequence._events[col].value = this.sequence._events[
@@ -107,15 +125,6 @@ class Instrument {
     }
   }
 
-  addMeasure() {
-    for (let i = 0; i < 4; ++i) {
-      this.events.push([]);
-    }
-    this.addMeasureToGrid();
-    this.sequence.dispose();
-    this.sequence = this.makeSequence().start();
-  }
-
   toggleCell(col, row) {
     const cell = this.getCell(col, row);
     if (cell.status) {
@@ -124,7 +133,7 @@ class Instrument {
       cell.status = true;
       this.playCell(col, row);
     }
-    this.updateSequenceWithCell(col, row);
+    this.toggleCellWithinSequence(col, row);
   }
 
   startSequence() {
@@ -137,12 +146,15 @@ class Instrument {
     this.sequence.stop();
   }
 
-  clear() {
-    kick.triggerAttackRelease('A1', '8n');
-    this.events = [];
-    this.grid = this.makeGrid();
+  disposeSequenceAndMakeNewSequence() {
     this.sequence.dispose();
     this.sequence = this.makeSequence();
+  }
+
+  clear() {
+    kick.triggerAttackRelease('A1', '8n');
+    this.grid = this.makeGrid();
+    this.disposeSequenceAndMakeNewSequence();
   }
 }
 

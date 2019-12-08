@@ -15,15 +15,28 @@ body {
     animation-iteration-count: 1;
     animation-play-state: running;
 }
-
 @keyframes transform {
     from {
-            transform: translateX(700px)
+        transform: translateX(700px)
     }
     to {
-            transform: translateX(0px)
+        transform: translateX(0px)
     }
 }
+
+/* .fly-away {
+    animation: flyaway 0.4s;
+    animation-iteration-count: 1;
+    animation-play-state: inherit;
+}
+@keyframes flyaway {
+    from {
+        transform: translateX(0px)
+    }
+    to {
+        transform: translateX(1000px)
+    }
+} */
 
 #play-pause {
     width: 100px
@@ -94,7 +107,6 @@ button:active {
 }
 
 #plus-minus-group {
-
     border: 1px solid black;
     display: flex;
     padding: 0;

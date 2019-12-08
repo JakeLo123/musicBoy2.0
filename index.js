@@ -58,7 +58,6 @@ playPauseButton.addEventListener('click', e => {
 });
 
 clearButton.addEventListener('click', () => {
-  instrument.width = grid.children.length;
   instrument.clear();
   clearAllCellsFromGrid(grid);
   playPauseButton.innerText = 'start';
@@ -86,9 +85,15 @@ addMeasureButton.addEventListener('click', () => {
     }
     grid.append(column);
   }
-  instrument.addMeasure();
+  instrument.addColumnsToGrid(4);
 });
 
 removeMeasureButton.addEventListener('click', () => {
-  console.log('remove button was clicked');
+  let columnIndex = grid.children.length - 1;
+  for (let i = 0; i < 4; ++i) {
+    let nodeToBeRemoved = grid.children[columnIndex];
+    grid.removeChild(nodeToBeRemoved);
+    --columnIndex;
+  }
+  instrument.removeColumnsFromGrid(4);
 });
