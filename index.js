@@ -1,50 +1,34 @@
 const Instrument = require('./instrument');
-const { clearAllCellsFromGrid } = require('./utils');
+const Drums = require('./drums');
+const { kick, clap, cymbal } = require('./sounds/synth');
+const {
+  initializeGrid,
+  clearAllCellsFromGrid,
+  timeoutButton,
+  toggleCell,
+} = require('./utils');
 
 const initialGridWidth = 16;
 
 const grid = document.getElementById('grid');
+const drumGrid = document.getElementById('drum-grid');
 const playPauseButton = document.getElementById('play-pause');
 const clearButton = document.getElementById('clear');
 const setTempo = document.getElementById('tempo');
 const addMeasureButton = document.querySelector('.plus');
 const removeMeasureButton = document.querySelector('.minus');
 const instrument = new Instrument(initialGridWidth);
+const drums = new Drums(initialGridWidth);
 
-function initializeGrid(width) {
-  let lightOrDark = false;
-  let n = 0;
-  for (let i = 0; i < width; ++i) {
-    let column = document.createElement('div');
-    if (n % 4 === 0) {
-      lightOrDark = !lightOrDark;
-      n = 0;
-    }
-    column.classList.add('column');
-    column.classList.add(lightOrDark ? 'light' : 'dark');
-    column.classList.add(`index${i}`);
-    ++n;
-    for (let j = 0; j < 12; ++j) {
-      let cell = document.createElement('div');
-      cell.dataset.row = j;
-      cell.dataset.col = i;
-      cell.classList.add('cell');
-      column.append(cell);
-    }
-    grid.append(column);
-  }
-}
+initializeGrid(grid, initialGridWidth, 12);
+initializeGrid(drumGrid, initialGridWidth, 3);
 
-initializeGrid(initialGridWidth);
-
-grid.addEventListener('click', e => {
-  const cell = e.target;
-  instrument.toggleCell(cell.dataset.col, cell.dataset.row);
-  if (cell.classList.contains('on')) {
-    cell.classList.remove('on');
-  } else {
-    cell.classList.add('on');
-  }
+grid.addEventListener('click', event => {
+  toggleCell(event, instrument);
+});
+drumGrid.addEventListener('click', event => {
+  toggleCell(event, drums);
+  // console.log(event.target.dataset);
 });
 
 playPauseButton.addEventListener('click', e => {
@@ -67,10 +51,11 @@ setTempo.addEventListener('change', e => {
   instrument.setTempo(e.target.value * 2);
 });
 
-addMeasureButton.addEventListener('click', () => {
-  if (grid.children.length >= 4) {
-    removeMeasureButton.disabled = false;
-  }
+addMeasureButton.addEventListener('click', e => {
+  timeoutButton(e.target, 240);
+  if (grid.children.length >= 4) removeMeasureButton.disabled = false;
+
+  instrument.addColumnsToGrid(4);
   let columnIndex = grid.children.length - 1;
   let lightOrDark = grid.children.length % 8 === 0;
   for (let i = 0; i < 4; ++i) {
@@ -88,19 +73,21 @@ addMeasureButton.addEventListener('click', () => {
     }
     grid.append(column);
   }
-  instrument.addColumnsToGrid(4);
 });
 
 removeMeasureButton.addEventListener('click', e => {
+  timeoutButton(e.target, 240);
+
   if (grid.children.length <= 4) {
+    kick.triggerAttackRelease('A1', '8n');
     e.target.disabled = true;
   } else {
     let columnIndex = grid.children.length - 1;
+    instrument.removeColumnsFromGrid(4);
     for (let i = 0; i < 4; ++i) {
-      let nodeToBeRemoved = grid.children[columnIndex];
-      grid.removeChild(nodeToBeRemoved);
+      let columnToBeRemoved = grid.children[columnIndex];
+      grid.removeChild(columnToBeRemoved);
       --columnIndex;
     }
-    instrument.removeColumnsFromGrid(4);
   }
 });

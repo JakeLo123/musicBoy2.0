@@ -59,12 +59,16 @@ class Instrument {
   }
 
   removeColumnsFromGrid(n) {
-    for (let i = 0; i < n; ++i) {
-      this.grid.pop();
-    }
-    this.disposeSequenceAndMakeNewSequence();
-    if (Tone.Transport.state === 'started') {
-      this.sequence.start();
+    if (this.grid.length >= 4) {
+      for (let i = 0; i < n; ++i) {
+        this.grid.pop();
+      }
+      this.disposeSequenceAndMakeNewSequence();
+      if (Tone.Transport.state === 'started') {
+        this.sequence.start();
+      }
+    } else {
+      console.log('cannot remove columns from grid length: ', this.grid.length);
     }
   }
 

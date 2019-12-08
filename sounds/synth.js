@@ -15,4 +15,34 @@ const synth = new Tone.PolySynth(12, Tone.Synth, {
 
 const kick = new Tone.MembraneSynth().toMaster();
 
-module.exports = { synth, kick };
+const clap = new Tone.NoiseSynth({
+  noise: {
+    type: 'white',
+    spread: 50,
+    density: 80,
+    surface: 12,
+    frequency: 40,
+  },
+  envelope: {
+    attack: 0.005,
+    decay: 0.33,
+    sustain: 0,
+  },
+}).toMaster();
+const cymbal = new Tone.NoiseSynth({
+  noise: {
+    type: 'white',
+  },
+  spread: 50,
+  density: 80,
+  surface: 12,
+  frequency: 40,
+  volume: 3,
+  envelope: {
+    attack: 0.005,
+    decay: 0.06,
+    sustain: 0,
+  },
+}).toMaster();
+
+module.exports = { synth, kick, clap, cymbal };

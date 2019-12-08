@@ -9,4 +9,50 @@ function clearAllCellsFromGrid(someGrid) {
   }
 }
 
-module.exports = { clearAllCellsFromGrid };
+function timeoutButton(button, timeoutValue) {
+  button.disabled = true;
+  setTimeout(() => {
+    button.disabled = false;
+  }, timeoutValue);
+}
+
+function initializeGrid(someGrid, width, height) {
+  let lightOrDark = false;
+  let n = 0;
+  for (let i = 0; i < width; ++i) {
+    let column = document.createElement('div');
+    if (n % 4 === 0) {
+      lightOrDark = !lightOrDark;
+      n = 0;
+    }
+    column.classList.add('column');
+    column.classList.add(lightOrDark ? 'light' : 'dark');
+    column.classList.add(`index${i}`);
+    ++n;
+    for (let j = 0; j < height; ++j) {
+      let cell = document.createElement('div');
+      cell.dataset.row = j;
+      cell.dataset.col = i;
+      cell.classList.add('cell');
+      column.append(cell);
+    }
+    someGrid.append(column);
+  }
+}
+
+function toggleCell(event, instrument) {
+  const cell = event.target;
+  instrument.toggleCell(cell.dataset.col, cell.dataset.row);
+  if (cell.classList.contains('on')) {
+    cell.classList.remove('on');
+  } else {
+    cell.classList.add('on');
+  }
+}
+
+module.exports = {
+  timeoutButton,
+  clearAllCellsFromGrid,
+  initializeGrid,
+  toggleCell,
+};
