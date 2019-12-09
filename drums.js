@@ -6,15 +6,15 @@ class Drums {
   constructor(width) {
     this.height = 3;
     this.width = width;
-    this.grid = this.makeGrid();
+    this.grid = this.makeGrid(this.width);
     this.kicks = this.makeKickSequence();
     this.claps = this.makeClapSequence();
     this.cymbals = this.makeCymbalSequence();
   }
 
-  makeGrid() {
+  makeGrid(width) {
     let grid = [];
-    for (let i = 0; i < this.width; ++i) {
+    for (let i = 0; i < width; ++i) {
       let column = [];
       for (let j = 0; j < this.height; ++j) {
         let sound;
@@ -118,7 +118,24 @@ class Drums {
     });
     let seq = new Tone.Sequence(
       function(time, note) {
+        // let sequenceLength = kicks.length;
+        // let playhead = 0;
+
         if (note !== 0) kick.triggerAttackRelease(note, '16n');
+
+        // Tone.Draw.schedule(function() {
+        //   let timeoutValue = 30000 / Tone.Transport.bpm.value;
+        //   if (playhead === sequenceLength) {
+        //     playhead = 0;
+        //   }
+        //   let column = document.querySelector(`.column.index${playhead}`);
+        //   console.
+        //   column.classList.add('animate');
+        //   setTimeout(() => {
+        //     column.classList.remove('animate');
+        //   }, timeoutValue);
+        //   ++playhead;
+        // }, time);
       },
       kicks,
       '8n'
@@ -165,6 +182,11 @@ class Drums {
     this.kicks = this.makeKickSequence();
     this.claps = this.makeClapSequence();
     this.cymbals = this.makeCymbalSequence();
+  }
+
+  clear() {
+    this.disposeSequenceAndMakeNewSequences();
+    this.stopSequences();
   }
 }
 

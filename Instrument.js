@@ -21,7 +21,7 @@ class Instrument {
   constructor(width) {
     this.height = 12;
     this.width = width;
-    this.grid = this.makeGrid();
+    this.grid = this.makeGrid(this.width);
     this.sequence = this.makeSequence();
     this.setTempo(120);
   }
@@ -30,9 +30,9 @@ class Instrument {
     Tone.Transport.bpm.value = value;
   }
 
-  makeGrid() {
+  makeGrid(width) {
     let grid = [];
-    for (let i = 0; i < this.width; ++i) {
+    for (let i = 0; i < width; ++i) {
       let column = [];
       for (let j = 0; j < this.height; ++j) {
         let node = new AudioNode(j, i, G_MAJOR[j]);
@@ -100,10 +100,11 @@ class Instrument {
           if (playhead === sequenceLength) {
             playhead = 0;
           }
-          let column = document.querySelector(`.column.index${playhead}`);
-          column.classList.add('animate');
+          let columns = document.querySelectorAll(`.column.index${playhead}`);
+          columns.forEach(column => column.classList.add('animate'));
+
           setTimeout(() => {
-            column.classList.remove('animate');
+            columns.forEach(column => column.classList.remove('animate'));
           }, timeoutValue);
           ++playhead;
         }, time);
@@ -157,9 +158,9 @@ class Instrument {
     this.sequence = this.makeSequence();
   }
 
-  clear() {
+  clear(width) {
     kick.triggerAttackRelease('A1', '8n');
-    this.grid = this.makeGrid();
+    this.grid = this.makeGrid(width);
     this.disposeSequenceAndMakeNewSequence();
     this.stopSequence();
   }

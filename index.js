@@ -50,7 +50,7 @@ playPauseButton.addEventListener('click', e => {
 
 // CLEAR
 clearButton.addEventListener('click', () => {
-  instrument.clear();
+  instrument.clear(grid.children.length);
   clearAllCellsFromGrid(grid);
   playPauseButton.innerText = 'start';
 });
