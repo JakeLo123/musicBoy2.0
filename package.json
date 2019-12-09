@@ -7,8 +7,9 @@
     "node": "13.1.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "build": "webpack --config webpack.config.js"
+    "dev": "node index.js",
+    "build": "webpack --config webpack.config.js",
+    "heroku-postbuild": "webpack -p"
   },
   "author": "Jake Loew",
   "license": "MIT",
