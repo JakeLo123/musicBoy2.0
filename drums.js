@@ -54,6 +54,7 @@ class Drums {
     }
     this.disposeSequenceAndMakeNewSequences();
     if (Tone.Transport.state === 'started') {
+      console.log('asdfh');
       this.startSequences();
     }
   }
@@ -118,24 +119,7 @@ class Drums {
     });
     let seq = new Tone.Sequence(
       function(time, note) {
-        // let sequenceLength = kicks.length;
-        // let playhead = 0;
-
         if (note !== 0) kick.triggerAttackRelease(note, '16n');
-
-        // Tone.Draw.schedule(function() {
-        //   let timeoutValue = 30000 / Tone.Transport.bpm.value;
-        //   if (playhead === sequenceLength) {
-        //     playhead = 0;
-        //   }
-        //   let column = document.querySelector(`.column.index${playhead}`);
-        //   console.
-        //   column.classList.add('animate');
-        //   setTimeout(() => {
-        //     column.classList.remove('animate');
-        //   }, timeoutValue);
-        //   ++playhead;
-        // }, time);
       },
       kicks,
       '8n'
@@ -184,7 +168,8 @@ class Drums {
     this.cymbals = this.makeCymbalSequence();
   }
 
-  clear() {
+  clear(width) {
+    this.grid = this.makeGrid(width);
     this.disposeSequenceAndMakeNewSequences();
     this.stopSequences();
   }

@@ -50,8 +50,11 @@ playPauseButton.addEventListener('click', e => {
 
 // CLEAR
 clearButton.addEventListener('click', () => {
+  Tone.Transport.pause();
   instrument.clear(grid.children.length);
+  drums.clear(grid.children.length);
   clearAllCellsFromGrid(grid);
+  clearAllCellsFromGrid(drumGrid);
   playPauseButton.innerText = 'start';
 });
 
@@ -82,7 +85,13 @@ removeMeasureButton.addEventListener('click', e => {
   } else {
     instrument.removeColumnsFromGrid(4);
     drums.removeColumnsFromGrid(4);
-    removeColumnsFromGrid(grid, 4);
-    removeColumnsFromGrid(drumGrid, 4);
+    for (let i = grid.children.length - 4; i < grid.children.length; ++i) {
+      const columnsToBeRemoved = document.querySelectorAll(`.column.index${i}`);
+      columnsToBeRemoved.forEach(column => column.classList.add('fly-away'));
+    }
+    setTimeout(() => {
+      removeColumnsFromGrid(grid, 4);
+      removeColumnsFromGrid(drumGrid, 4);
+    }, 400);
   }
 });

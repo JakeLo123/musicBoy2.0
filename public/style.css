@@ -15,22 +15,20 @@ body {
 }
 
 * {
-    animation: transform 0.4s infinite;
+    animation: transform 0.4s;
     animation-iteration-count: 1;
     animation-play-state: running;
 }
 @keyframes transform {
     from {
-        /* transform: translateX(700px) */
-        transform: rotate(0deg)
+        transform: translateX(700px)
     }
     to {
-        /* transform: translateX(0px) */
-        transform: rotate(360deg);
+        transform: translateX(0px)
     }
 }
 
-/* .fly-away {
+.fly-away {
     animation: flyaway 0.4s;
     animation-iteration-count: 1;
     animation-play-state: inherit;
@@ -42,7 +40,7 @@ body {
     to {
         transform: translateX(1000px)
     }
-} */
+}
 
 #play-pause {
     width: 100px
