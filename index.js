@@ -1,11 +1,13 @@
 const Instrument = require('./instrument');
 const Drums = require('./drums');
-const { kick, clap, cymbal } = require('./sounds/synth');
+const { kick } = require('./sounds/synth');
 const {
   initializeGrid,
   clearAllCellsFromGrid,
   timeoutButton,
   toggleCell,
+  addColumnsToGrid,
+  removeColumnsFromGrid,
 } = require('./utils');
 
 const initialGridWidth = 16;
@@ -28,53 +30,46 @@ grid.addEventListener('click', event => {
 });
 drumGrid.addEventListener('click', event => {
   toggleCell(event, drums);
-  // console.log(event.target.dataset);
 });
 
+// PLAY - PAUSE
 playPauseButton.addEventListener('click', e => {
   if (e.target.innerText === 'start') {
     e.target.innerText = 'stop';
     instrument.startSequence();
+    drums.startSequences();
   } else {
     e.target.innerText = 'start';
     instrument.stopSequence();
+    drums.stopSequences();
   }
 });
 
+// CLEAR
 clearButton.addEventListener('click', () => {
   instrument.clear();
   clearAllCellsFromGrid(grid);
   playPauseButton.innerText = 'start';
 });
 
+// SET TEMPO
 setTempo.addEventListener('change', e => {
   instrument.setTempo(e.target.value * 2);
 });
 
+// ADD MEASURE
 addMeasureButton.addEventListener('click', e => {
   timeoutButton(e.target, 240);
   if (grid.children.length >= 4) removeMeasureButton.disabled = false;
 
   instrument.addColumnsToGrid(4);
-  let columnIndex = grid.children.length - 1;
-  let lightOrDark = grid.children.length % 8 === 0;
-  for (let i = 0; i < 4; ++i) {
-    let column = document.createElement('div');
-    column.classList.add('column');
-    column.classList.add(lightOrDark ? 'light' : 'dark');
-    column.classList.add(`index${columnIndex + 1}`);
-    ++columnIndex;
-    for (let j = 0; j < 12; ++j) {
-      let cell = document.createElement('div');
-      cell.dataset.row = j;
-      cell.dataset.col = columnIndex;
-      cell.classList.add('cell');
-      column.append(cell);
-    }
-    grid.append(column);
-  }
+  drums.addColumnsToGrid(4);
+
+  addColumnsToGrid(grid, 4, 12);
+  addColumnsToGrid(drumGrid, 4, 3);
 });
 
+// REMOVE MEASURE
 removeMeasureButton.addEventListener('click', e => {
   timeoutButton(e.target, 240);
 
@@ -82,12 +77,8 @@ removeMeasureButton.addEventListener('click', e => {
     kick.triggerAttackRelease('A1', '8n');
     e.target.disabled = true;
   } else {
-    let columnIndex = grid.children.length - 1;
     instrument.removeColumnsFromGrid(4);
-    for (let i = 0; i < 4; ++i) {
-      let columnToBeRemoved = grid.children[columnIndex];
-      grid.removeChild(columnToBeRemoved);
-      --columnIndex;
-    }
+    removeColumnsFromGrid(grid, 4);
+    removeColumnsFromGrid(drumGrid, 4);
   }
 });

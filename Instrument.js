@@ -87,7 +87,7 @@ class Instrument {
     return new Tone.Sequence(
       function(time, event) {
         // reset playhead to 0 on pause...
-        Tone.Transport.on('pause', () => {
+        Tone.Transport.on('start', () => {
           playhead = 0;
         });
 

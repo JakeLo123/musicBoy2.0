@@ -23,12 +23,14 @@ const clap = new Tone.NoiseSynth({
     surface: 12,
     frequency: 40,
   },
+  volume: 0,
   envelope: {
     attack: 0.005,
     decay: 0.33,
     sustain: 0,
   },
 }).toMaster();
+
 const cymbal = new Tone.NoiseSynth({
   noise: {
     type: 'white',
@@ -37,7 +39,7 @@ const cymbal = new Tone.NoiseSynth({
   density: 80,
   surface: 12,
   frequency: 40,
-  volume: 3,
+  volume: 0,
   envelope: {
     attack: 0.005,
     decay: 0.06,

@@ -15,20 +15,22 @@ body {
 }
 
 * {
-    animation: transform 0.4s;
+    animation: transform 0.4s infinite;
     animation-iteration-count: 1;
     animation-play-state: running;
 }
 @keyframes transform {
     from {
-        transform: translateX(700px)
+        /* transform: translateX(700px) */
+        transform: rotate(0deg)
     }
     to {
-        transform: translateX(0px)
+        /* transform: translateX(0px) */
+        transform: rotate(360deg);
     }
 }
 
-.fly-away {
+/* .fly-away {
     animation: flyaway 0.4s;
     animation-iteration-count: 1;
     animation-play-state: inherit;
@@ -40,7 +42,7 @@ body {
     to {
         transform: translateX(1000px)
     }
-}
+} */
 
 #play-pause {
     width: 100px
@@ -80,11 +82,11 @@ body {
 
 }
 
-.cell.on {
-    background-color: #A14A76;
+.cell:hover {
+    background-color: rgba(161, 74, 117, 0.644);
 }
 
-.cell:hover {
+.cell.on {
     background-color: #A14A76;
 }
 

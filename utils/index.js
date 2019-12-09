@@ -40,6 +40,35 @@ function initializeGrid(someGrid, width, height) {
   }
 }
 
+function addColumnsToGrid(someGrid, numColumns, height) {
+  let columnIndex = someGrid.children.length - 1;
+  let lightOrDark = someGrid.children.length % 8 === 0;
+  for (let i = 0; i < numColumns; ++i) {
+    let column = document.createElement('div');
+    column.classList.add('column');
+    column.classList.add(lightOrDark ? 'light' : 'dark');
+    column.classList.add(`index${columnIndex + 1}`);
+    ++columnIndex;
+    for (let j = 0; j < height; ++j) {
+      let cell = document.createElement('div');
+      cell.dataset.row = j;
+      cell.dataset.col = columnIndex;
+      cell.classList.add('cell');
+      column.append(cell);
+    }
+    someGrid.append(column);
+  }
+}
+
+function removeColumnsFromGrid(someGrid, numColumns) {
+  let columnIndex = someGrid.children.length - 1;
+  for (let i = 0; i < numColumns; ++i) {
+    let columnToBeRemoved = someGrid.children[columnIndex];
+    someGrid.removeChild(columnToBeRemoved);
+    --columnIndex;
+  }
+}
+
 function toggleCell(event, instrument) {
   const cell = event.target;
   instrument.toggleCell(cell.dataset.col, cell.dataset.row);
@@ -55,4 +84,6 @@ module.exports = {
   clearAllCellsFromGrid,
   initializeGrid,
   toggleCell,
+  addColumnsToGrid,
+  removeColumnsFromGrid,
 };
