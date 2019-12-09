@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node index.js",
-    "build": "webpack --config webpack.config.js",
+    // "build": "webpack --config webpack.config.js",
     "heroku-postbuild": "webpack -p"
   },
   "author": "Jake Loew",
