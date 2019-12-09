@@ -145,12 +145,10 @@ class Instrument {
   }
 
   startSequence() {
-    Tone.Transport.start();
     this.sequence.start();
   }
 
   stopSequence() {
-    Tone.Transport.pause();
     this.sequence.stop();
   }
 

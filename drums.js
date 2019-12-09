@@ -43,7 +43,7 @@ class Drums {
   addColumnsToGrid(n) {
     for (let i = 0; i < n; ++i) {
       let column = [];
-      for (let j = 0; j < 12; ++j) {
+      for (let j = 0; j < 3; ++j) {
         let sound;
         if (j === 2) sound = 'D1';
         else sound = '16n';
@@ -51,7 +51,10 @@ class Drums {
         column.push(node);
       }
       this.grid.push(column);
-      this.disposeSequenceAndMakeNewSequences();
+    }
+    this.disposeSequenceAndMakeNewSequences();
+    if (Tone.Transport.state === 'started') {
+      this.startSequences();
     }
   }
 
@@ -62,9 +65,7 @@ class Drums {
       }
       this.disposeSequenceAndMakeNewSequences();
       if (Tone.Transport.state === 'started') {
-        this.kicks.start();
-        this.claps.start();
-        this.cymbals.start();
+        this.startSequences();
       }
     } else {
       console.log('cannot remove columns from grid length: ', this.grid.length);
@@ -126,11 +127,10 @@ class Drums {
   }
 
   makeClapSequence() {
-    let claps = [];
-    this.grid.forEach(column => {
-      let node = column[0];
-      if (node.status) claps.push(node.pitch);
-      else claps.push(0);
+    let claps = this.grid.map(column => {
+      let node = column[1];
+      if (node.status) return node.pitch;
+      else return 0;
     });
     let seq = new Tone.Sequence(
       function(time, note) {
@@ -143,11 +143,10 @@ class Drums {
   }
 
   makeCymbalSequence() {
-    let cymbals = [];
-    this.grid.forEach(column => {
+    let cymbals = this.grid.map(column => {
       let node = column[0];
-      if (node.status) cymbals.push(node.pitch);
-      else cymbals.push(0);
+      if (node.status) return node.pitch;
+      else return 0;
     });
     let seq = new Tone.Sequence(
       function(time, note) {

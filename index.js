@@ -1,5 +1,6 @@
 const Instrument = require('./instrument');
 const Drums = require('./drums');
+const Tone = require('tone');
 const { kick } = require('./sounds/synth');
 const {
   initializeGrid,
@@ -36,10 +37,12 @@ drumGrid.addEventListener('click', event => {
 playPauseButton.addEventListener('click', e => {
   if (e.target.innerText === 'start') {
     e.target.innerText = 'stop';
+    Tone.Transport.start();
     instrument.startSequence();
     drums.startSequences();
   } else {
     e.target.innerText = 'start';
+    Tone.Transport.pause();
     instrument.stopSequence();
     drums.stopSequences();
   }
@@ -62,11 +65,11 @@ addMeasureButton.addEventListener('click', e => {
   timeoutButton(e.target, 240);
   if (grid.children.length >= 4) removeMeasureButton.disabled = false;
 
-  instrument.addColumnsToGrid(4);
-  drums.addColumnsToGrid(4);
-
   addColumnsToGrid(grid, 4, 12);
   addColumnsToGrid(drumGrid, 4, 3);
+
+  instrument.addColumnsToGrid(4);
+  drums.addColumnsToGrid(4);
 });
 
 // REMOVE MEASURE
@@ -78,6 +81,7 @@ removeMeasureButton.addEventListener('click', e => {
     e.target.disabled = true;
   } else {
     instrument.removeColumnsFromGrid(4);
+    drums.removeColumnsFromGrid(4);
     removeColumnsFromGrid(grid, 4);
     removeColumnsFromGrid(drumGrid, 4);
   }
