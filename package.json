@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "make music with music boy",
   "main": "index.js",
+  "engines": {
+    "node": "13.1.0"
+  },
   "scripts": {
+    "start": "node index.js",
     "build": "webpack --config webpack.config.js"
   },
   "author": "Jake Loew",
