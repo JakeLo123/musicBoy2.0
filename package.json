@@ -9,6 +9,7 @@
   "author": "Jake Loew",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.17.1",
     "tone": "^13.8.25"
   },
   "devDependencies": {
