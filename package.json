@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node server.js",
-    "deploy": "script/deploy"
+    "heroku-postbuild": "webpack -p"
   },
   "author": "Jake Loew",
   "license": "MIT",
