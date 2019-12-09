@@ -5,7 +5,7 @@ module.exports = {
   node: {
     fs: 'empty',
   },
-  entry: './main.js',
+  entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
