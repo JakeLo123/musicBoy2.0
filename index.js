@@ -1,4 +1,4 @@
-const Instrument = require('./instrument');
+const Instrument = require('./Instrument');
 const Drums = require('./drums');
 const Tone = require('tone');
 const { kick } = require('./sounds/synth');
@@ -26,15 +26,15 @@ const drums = new Drums(initialGridWidth);
 initializeGrid(grid, initialGridWidth, 12);
 initializeGrid(drumGrid, initialGridWidth, 3);
 
-grid.addEventListener('click', event => {
+grid.addEventListener('click', (event) => {
   toggleCell(event, instrument);
 });
-drumGrid.addEventListener('click', event => {
+drumGrid.addEventListener('click', (event) => {
   toggleCell(event, drums);
 });
 
 // PLAY - PAUSE
-playPauseButton.addEventListener('click', e => {
+playPauseButton.addEventListener('click', (e) => {
   if (e.target.innerText === 'start') {
     e.target.innerText = 'stop';
     Tone.Transport.start();
@@ -59,12 +59,12 @@ clearButton.addEventListener('click', () => {
 });
 
 // SET TEMPO
-setTempo.addEventListener('change', e => {
+setTempo.addEventListener('change', (e) => {
   instrument.setTempo(e.target.value * 2);
 });
 
 // ADD MEASURE
-addMeasureButton.addEventListener('click', e => {
+addMeasureButton.addEventListener('click', (e) => {
   timeoutButton(e.target, 240);
   if (grid.children.length >= 4) removeMeasureButton.disabled = false;
 
@@ -76,7 +76,7 @@ addMeasureButton.addEventListener('click', e => {
 });
 
 // REMOVE MEASURE
-removeMeasureButton.addEventListener('click', e => {
+removeMeasureButton.addEventListener('click', (e) => {
   timeoutButton(e.target, 240);
 
   if (grid.children.length <= 4) {
@@ -87,7 +87,7 @@ removeMeasureButton.addEventListener('click', e => {
     drums.removeColumnsFromGrid(4);
     for (let i = grid.children.length - 4; i < grid.children.length; ++i) {
       const columnsToBeRemoved = document.querySelectorAll(`.column.index${i}`);
-      columnsToBeRemoved.forEach(column => column.classList.add('fly-away'));
+      columnsToBeRemoved.forEach((column) => column.classList.add('fly-away'));
     }
     setTimeout(() => {
       removeColumnsFromGrid(grid, 4);
