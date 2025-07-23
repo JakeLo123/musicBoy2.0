@@ -1,11 +1,13 @@
 # MusicBoy
-a browser-based musical instrument that handles composition, edits, and playback of musical sequences.
+A mini browser-based musical instrument that handles composition, edits, and playback of musical sequences.
+
+Play it at [midi.party](www.midi.party)
 
 ### Usage
-Making music is easy. Click the squares, and you will hear sounds. Cells that are selected up play when the play head passes through them. Select a tempo and change the grid size, if you wish.
+Click the squares, and you will hear sounds. Cells that are selected up play when the play head passes through them. Select a tempo and change the grid size, if you wish.
 
-### Built with
-HTML, CSS, JavaScript, [Tone.js](https://tonejs.github.io/), [Webpack.js](https://webpack.js.org/), [Express.js](https://expressjs.com/)
+#### Built with
+[Tone.js](https://tonejs.github.io/)
 
-#### developer
-Jake Loew - view more work at www.jakeloew.com
+##### developer
+[www.jakeloew.com](www.jakeloew.com)
